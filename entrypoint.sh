@@ -3,19 +3,23 @@
 set -eo pipefail
 
 start(){
-    # Fetch run details and store in run_details.json
-    wget -q --header="Authorization: Bearer $GITHUB_TOKEN" \
-    --header="Accept: application/vnd.github.v3+json" \
-    -O run_details.json \
-    "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
-
-    # Extract start time from run_details.json
-    start_at=$(jq -r '.created_at' run_details.json)
-
-    # Output start time to the specified output file
-    echo "start_time=$start_at" >> "$GITHUB_OUTPUT"
+    start_time=$(echo "${{ github.event.repository.created_at }}")
+    end_time=$(date +%s)
+    duration=$((end_time - start_time))
+    if [[ $duration -lt 60 ]]; then
+        echo "duration=${duration}s" >> $GITHUB_OUTPUT
+        else
+        duration_minutes=$((duration / 60))
+        if [[ $duration_minutes -lt 60 ]]; then
+            echo "duration=${duration_minutes}m" >> $GITHUB_OUTPUT
+        else
+            duration_hours=$((duration_minutes / 60))
+            duration_remaining_minutes=$((duration_minutes % 60))
+            echo "duration=${duration_hours}h ${duration_remaining_minutes}m" >> $GITHUB_OUTPUT
+        fi
+    fi
 }
 
 start
 
-echo "[+] Start Time - Working" # You can put whatever message you want here
+echo "[+] Start Time - Done" # You can put whatever message you want here
