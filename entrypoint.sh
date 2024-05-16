@@ -7,8 +7,8 @@ curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
             https://api.github.com/repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID \
             > run_details.json
 # Fetch run details from GitHub Actions API and capture start time
-start_time=$(jq -r '.created_at')
 cat run_details.json
+start_time=$(jq -r '.created_at')
 echo "Start Time: ${start_time}"
 echo "End Time: $(date +%s)"
 
