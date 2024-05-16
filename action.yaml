@@ -1,9 +1,15 @@
 name: "Calculate Steps Log Time"
 description: "Calculate the time taken between the steps in github actions"
 author: Rocky Karmakar
+
 branding:
   icon: "activity"
   color: "blue"
+
+inputs:
+  start_time:
+    description: "Starting time"
+    required: true
 
 runs:
   using: docker

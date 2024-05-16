@@ -2,7 +2,7 @@
 
 set -eo pipefail
 
-CREATED_AT=$1
+CREATED_AT=${1:?"Missing start time"}
 
 start(){
     start_time=${CREATED_AT}
