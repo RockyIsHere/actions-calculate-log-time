@@ -2,29 +2,37 @@
 
 set -eo pipefail
 
-CREATED_AT=${1:?"Missing start time"}
+# Fetch run details from GitHub Actions API and capture start time
+start_time=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/$GITHUB_REPOSITORY/actions/runs/$(echo $GITHUB_RUN_ID) \
+            | jq -r '.created_at')
 
-echo "Start Time: ${CREATED_AT}"
+echo "Start Time: ${start_time}"
 echo "End Time: $(date +%s)"
 
-start(){
-    start_time=${CREATED_AT}
-    end_time=$(date +%s)
-    duration=$((end_time - start_time))
-    if [[ $duration -lt 60 ]]; then
-        echo "duration=${duration}s" >> $GITHUB_OUTPUT
+# Function to calculate and output duration
+calculate_duration() {
+    local start_time="$1"
+    local end_time=$(date +%s)
+    local duration=$((end_time - start_time))
+
+    # Convert duration to minutes and hours if needed
+    if [ "$duration" -lt 60 ]; then
+        echo "duration=${duration}s"
+    else
+        local duration_minutes=$((duration / 60))
+        if [ "$duration_minutes" -lt 60 ]; then
+            echo "duration=${duration_minutes}m"
         else
-        duration_minutes=$((duration / 60))
-        if [[ $duration_minutes -lt 60 ]]; then
-            echo "duration=${duration_minutes}m" >> $GITHUB_OUTPUT
-        else
-            duration_hours=$((duration_minutes / 60))
-            duration_remaining_minutes=$((duration_minutes % 60))
-            echo "duration=${duration_hours}h ${duration_remaining_minutes}m" >> $GITHUB_OUTPUT
+            local duration_hours=$((duration_minutes / 60))
+            local duration_remaining_minutes=$((duration_minutes % 60))
+            echo "duration=${duration_hours}h ${duration_remaining_minutes}m"
         fi
     fi
 }
 
-start
+# Call function to calculate and output duration
+calculate_duration "$start_time"
 
-echo "[+] Start Time - Done" # You can put whatever message you want here
+echo "[+] Start Time - Done"
