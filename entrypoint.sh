@@ -2,8 +2,10 @@
 
 set -eo pipefail
 
+CREATED_AT=$1
+
 start(){
-    start_time=$(echo "${{ github.event.repository.created_at }}")
+    start_time=${CREATED_AT}
     end_time=$(date +%s)
     duration=$((end_time - start_time))
     if [[ $duration -lt 60 ]]; then
