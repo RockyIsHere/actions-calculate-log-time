@@ -4,6 +4,9 @@ set -eo pipefail
 
 CREATED_AT=${1:?"Missing start time"}
 
+echo "Start Time: ${CREATED_AT}"
+echo "End Time: $(date +%s)"
+
 start(){
     start_time=${CREATED_AT}
     end_time=$(date +%s)
