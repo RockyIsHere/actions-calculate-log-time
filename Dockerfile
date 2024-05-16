@@ -1,10 +1,16 @@
 FROM alpine:3.18.3
 
-# https://docs.github.com/en/actions/learn-github-actions/environment-variables#default-environment-variables
+# Install required dependencies
+RUN apk add --no-cache curl jq
+
+# Set environment variables
 ENV GITHUB_TOKEN=${GITHUB_TOKEN}
 ENV GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
 ENV GITHUB_SHA=${GITHUB_SHA}
+
+# Copy entrypoint script and make it executable
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Set the entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
-#ENTRYPOINT ["tail", "-f", "/dev/null"]
