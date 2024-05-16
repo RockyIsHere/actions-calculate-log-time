@@ -5,9 +5,9 @@ set -eo pipefail
 # Fetch run details from GitHub Actions API and capture start time
 start_time=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/$GITHUB_REPOSITORY/actions/runs/$(echo $GITHUB_RUN_ID) \
+            https://api.github.com/repos/$GITHUB_REPOSITORY/actions/runs/98107152 \
             | jq -r '.created_at')
-
+cat run_details.json
 echo "Start Time: ${start_time}"
 echo "End Time: $(date +%s)"
 
