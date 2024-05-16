@@ -14,17 +14,23 @@ if [ -z "$GITHUB_REPOSITORY" ]; then
 fi
 
 # Fetch run details from GitHub Actions API and capture start time
-curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
+run_details=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
     -H "Accept: application/vnd.github.v3+json" \
-    "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
-    > run_details.json
+    "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID")
 
 # Extract start time from run details
-start_at=$(jq -r '.created_at' run_details.json)
+start_at=$(echo "$run_details" | grep -o '"created_at":[^,]*' | cut -d '"' -f 4)
 
-# Convert start time to Unix timestamp
-start_time=$(date -d $start_at +%s)
-echo "Start Time: $(date -d $start_at +%s)"
+# Convert ISO 8601 date string to Unix timestamp
+start_time=$(date -d "$start_at" +%s || true)
+
+# Check if conversion was successful
+if [ -z "$start_time" ]; then
+    echo "Error: Failed to parse start time"
+    exit 1
+fi
+
+echo "Start Time: $start_time"
 
 # Output end time (current time)
 echo "End Time: $(date +%s)"
