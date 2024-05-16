@@ -7,14 +7,13 @@ curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
             https://api.github.com/repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID \
             > run_details.json
 # Fetch run details from GitHub Actions API and capture start time
-cat run_details.json
-start_time=$(jq -r '.created_at')
-echo "Start Time: ${start_time}"
+start_at=$(jq -r '.created_at' run_details.json)
+echo "Start Time: $(date -d "$start_at" +%s)"
 echo "End Time: $(date +%s)"
 
 # Function to calculate and output duration
 calculate_duration() {
-    local start_time="$1"
+    local start_time=$(date -d "$start_at" +%s)
     local end_time=$(date +%s)
     local duration=$((end_time - start_time))
 
