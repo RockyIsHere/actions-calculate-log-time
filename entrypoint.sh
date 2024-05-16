@@ -4,10 +4,10 @@ set -eo pipefail
 
 start(){
     # Fetch run details and store in run_details.json
-    curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
-    -H "Accept: application/vnd.github.v3+json" \
-    "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
-    > run_details.json
+    wget -q --header="Authorization: Bearer $GITHUB_TOKEN" \
+    --header="Accept: application/vnd.github.v3+json" \
+    -O run_details.json \
+    "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
     # Extract start time from run_details.json
     start_at=$(jq -r '.created_at' run_details.json)
