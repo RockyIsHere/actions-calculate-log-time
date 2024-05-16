@@ -7,6 +7,7 @@ RUN apk add --no-cache curl jq
 ENV GITHUB_TOKEN=${GITHUB_TOKEN}
 ENV GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
 ENV GITHUB_SHA=${GITHUB_SHA}
+ENV GITHUB_RUN_ID=${GITHUB_RUN_ID}
 
 # Copy entrypoint script and make it executable
 COPY entrypoint.sh /entrypoint.sh
