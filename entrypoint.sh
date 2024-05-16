@@ -23,8 +23,8 @@ curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
 start_at=$(jq -r '.created_at' run_details.json)
 
 # Convert start time to Unix timestamp
-start_time=$(date -d "$start_at" +%s)
-echo "Start Time: $(date -d "$start_at" +%s)"
+start_time=$(date -d $start_at +%s)
+echo "Start Time: $(date -d $start_at +%s)"
 
 # Output end time (current time)
 echo "End Time: $(date +%s)"
