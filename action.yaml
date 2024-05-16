@@ -1,0 +1,10 @@
+name: "Calculate Steps Log Time"
+description: "This is action which will calculate the time taken between the steps in github actions. which can be use for notification porpus like - slack etc"
+author: Rocky Karmakar
+branding:
+  icon: "activity"
+  color: "blue"
+
+runs:
+  using: docker
+  image: Dockerfile
