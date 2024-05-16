@@ -5,6 +5,7 @@ set -eo pipefail
 curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID \
+            > run_details.json
 # Fetch run details from GitHub Actions API and capture start time
 start_time=$(jq -r '.created_at')
 cat run_details.json
