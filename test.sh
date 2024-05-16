@@ -1,0 +1,1 @@
+start_at=$(jq -r '.created_at' run_details.json)
