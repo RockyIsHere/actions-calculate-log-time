@@ -42,15 +42,15 @@ calculate_duration() {
 
     # Convert duration to minutes and hours if needed
     if [ "$duration" -lt 60 ]; then
-        echo "duration=${duration}s"
+        echo "duration=${duration}s" >> $GITHUB_OUTPUT
     else
         local duration_minutes=$((duration / 60))
         if [ "$duration_minutes" -lt 60 ]; then
-            echo "duration=${duration_minutes}m"
+            echo "duration=${duration_minutes}m" >> $GITHUB_OUTPUT
         else
             local duration_hours=$((duration_minutes / 60))
             local duration_remaining_minutes=$((duration_minutes % 60))
-            echo "duration=${duration_hours}h ${duration_remaining_minutes}m"
+            echo "duration=${duration_hours}h ${duration_remaining_minutes}m" >> $GITHUB_OUTPUT
         fi
     fi
 }
