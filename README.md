@@ -33,7 +33,7 @@ jobs:
 
       - name: Calculate Steps Log Time
         id: duration
-        uses: RockyIsHere/actions-calculate-log-time@v0.2.2
+        uses: RockyIsHere/actions-calculate-log-time@v0.2.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
