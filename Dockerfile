@@ -2,6 +2,7 @@ FROM alpine:3.18.3
 
 # Install required dependencies
 RUN apk add --no-cache curl jq
+RUN apk add coreutils
 
 # Set environment variables
 ENV GITHUB_TOKEN=${GITHUB_TOKEN}
