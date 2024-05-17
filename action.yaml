@@ -1,5 +1,5 @@
-name: "Calculate Steps Log Time"
-description: "Calculate the time taken between the steps in github actions"
+name: "GitHub Workflow Duration Calculator"
+description: "This GitHub Action calculates the total time taken from the start of the workflow to a specified step"
 author: Rocky Karmakar
 
 branding:
